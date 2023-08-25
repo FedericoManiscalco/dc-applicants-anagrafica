@@ -2,6 +2,9 @@ package com.entity;
 
 import java.util.Date;
 
+import com.enums.Contratto;
+import com.enums.Qualifica;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,14 +36,14 @@ public class PosizioneLavorativa {
 	private Date dataInizio;
 
 	@Enumerated(EnumType.STRING)
-	private String posizione;
+	private Qualifica qualifica;
 
 	@Enumerated(EnumType.STRING)
-	private String contratto;
+	private Contratto contratto;
 
-	@Column(name = "altro_contratto")
-	private String altroContratto;
-	private Integer livello;
+	@Column(name = "specifica_contratto")
+	private String specificaContratto;
+	private String livello;
 	private Integer ral;
 
 	@Column(name = "tariffa_giornaliera_netta")
@@ -49,7 +52,7 @@ public class PosizioneLavorativa {
 	@Column(name = "nome_referente")
 	private String nomeReferente;
 
-	@Column(name = "normaticaPrivacy")
+	@Column(name = "normativa_privacy")
 	private Boolean normativaPrivacy;
 
 	@ManyToOne

@@ -34,6 +34,6 @@ public class AnagraficaCandidatoDTO {
 	private String recapitoMobile;
 	private Boolean categoriaProtetta;
 	private Boolean condanneCivili;
-	private String comeConosciutoCombo;
+	private String comeConosciuto;
 
 }

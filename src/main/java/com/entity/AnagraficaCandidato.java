@@ -2,21 +2,26 @@ package com.entity;
 
 import java.util.Date;
 
+import com.enums.ComeConosciuto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 
 @Entity
 public class AnagraficaCandidato {
@@ -27,35 +32,28 @@ public class AnagraficaCandidato {
 	private Integer candidatoId;
 
 	@Column(name = "codice_fiscale", nullable = false, unique = true)
-	@NotBlank(message = "codice Fiscale non può essere vuoto")
 	private String codiceFiscale;
 
 	@Column(nullable = false)
-	@NotBlank(message = "nome non può essere vuoto")
 	private String nome;
 
 	@Column(nullable = false)
-	@NotBlank(message = "cognome non può essere vuoto")
 	private String cognome;
 
 	@Column(nullable = false, unique = true)
-	@NotBlank(message = "email non può essere vuota")
 	private String email;
 
 	@Column(name = "data_nascita", nullable = false)
 	private Date dataNascita;
 
 	@Column(name = "luogo_nascita", nullable = false)
-	@NotBlank(message = "luogo di nascita non può essere vuota")
 	private String luogoNascita;
 	private Boolean cittadinanza;
 
 	@Column(nullable = false)
-	@NotBlank(message = "residenza non può essere vuota")
 	private String residenza;
 
 	@Column(name = "cap_residenza", nullable = false)
-	@NotBlank(message = "cap residenza non può essere vuoto")
 	private String capResidenza;
 
 	private String domicilio;
@@ -72,7 +70,8 @@ public class AnagraficaCandidato {
 	@Column(name = "condanne_civili")
 	private Boolean condanneCivili;
 
-	@Column(name = "come_conosciuto_combo")
-	private String comeConosciutoCombo;
+	@Column(name = "come_conosciuto")
+	@Enumerated(EnumType.STRING)
+	private ComeConosciuto comeConosciuto;
 
 }

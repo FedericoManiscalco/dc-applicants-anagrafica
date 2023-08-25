@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.dto.AnagraficaCandidatoDTO;
 import com.entity.AnagraficaCandidato;
+import com.enums.ComeConosciuto;
 import com.repository.AnagraficaCandidatoRepository;
 
 @Service
@@ -61,6 +62,8 @@ public class AnagraficaCandidatoServiceImpl implements AnagraficaCandidatoServic
 
 	private AnagraficaCandidato toEntity(AnagraficaCandidatoDTO candidatoDTO) {
 		AnagraficaCandidato c = new AnagraficaCandidato();
+		ComeConosciuto comeConosciutoEnum = null;
+
 		c.setNome(candidatoDTO.getNome());
 		c.setCognome(candidatoDTO.getCognome());
 		c.setCodiceFiscale(candidatoDTO.getCodiceFiscale());
@@ -68,11 +71,16 @@ public class AnagraficaCandidatoServiceImpl implements AnagraficaCandidatoServic
 		c.setDataNascita(candidatoDTO.getDataNascita());
 		c.setLuogoNascita(candidatoDTO.getLuogoNascita());
 		c.setCittadinanza(candidatoDTO.getCittadinanza());
+		c.setResidenza(candidatoDTO.getResidenza());
 		c.setCapResidenza(candidatoDTO.getCapResidenza());
 		c.setCapDomicilio(candidatoDTO.getCapDomicilio());
 		c.setCategoriaProtetta(candidatoDTO.getCategoriaProtetta());
 		c.setCondanneCivili(candidatoDTO.getCondanneCivili());
-		c.setComeConosciutoCombo(candidatoDTO.getComeConosciutoCombo());
+		c.setRecapitoMobile(candidatoDTO.getRecapitoMobile());
+		if (candidatoDTO.getComeConosciuto() != null) {
+			comeConosciutoEnum = ComeConosciuto.fromString(candidatoDTO.getComeConosciuto());
+		}
+		c.setComeConosciuto(comeConosciutoEnum);
 		return c;
 
 	}

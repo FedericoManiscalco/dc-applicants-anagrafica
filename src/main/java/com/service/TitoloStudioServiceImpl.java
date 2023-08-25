@@ -10,7 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dto.TitoloStudioDTO;
-import com.entity.TitoloStudio;
+import com.entity.Titolo;
+import com.enums.Certificazione;
+import com.enums.Diploma;
+import com.enums.Laurea;
+import com.repository.AnagraficaCandidatoRepository;
 import com.repository.TitoloStudioRepository;
 
 @Service
@@ -19,18 +23,21 @@ public class TitoloStudioServiceImpl implements TitoloStudioService {
 	@Autowired
 	private TitoloStudioRepository tsr;
 
+	@Autowired
+	private AnagraficaCandidatoRepository ac;
+
 	@Override
-	public List<TitoloStudio> getTitoli() {
+	public List<Titolo> getTitoli() {
 		return tsr.findAll();
 	}
 
 	@Override
-	public ResponseEntity<TitoloStudio> postTitolo(TitoloStudioDTO titoloDTO) {
-		TitoloStudio t = toEntity(titoloDTO);
-		t = tsr.findById(titoloDTO.getCandidato().getCandidatoId()).get();
+	public ResponseEntity<Titolo> postTitolo(TitoloStudioDTO titoloDTO) {
+		Titolo t = toEntity(titoloDTO);
 		try {
+			t.setCandidato(ac.findById(titoloDTO.getCandidatoId()).get());
 			tsr.save(t);
-			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(t, HttpStatus.ACCEPTED);
 		} catch (IllegalArgumentException | OptimisticLockingFailureException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
@@ -38,9 +45,9 @@ public class TitoloStudioServiceImpl implements TitoloStudioService {
 	}
 
 	@Override
-	public ResponseEntity<TitoloStudio> patchTitolo(Integer id) {
+	public ResponseEntity<Titolo> patchTitolo(Integer id) {
 		try {
-			Optional<TitoloStudio> t = tsr.findById(id);
+			Optional<Titolo> t = tsr.findById(id);
 			tsr.save(t.get());
 		} catch (IllegalArgumentException | OptimisticLockingFailureException e) {
 			e.printStackTrace();
@@ -50,7 +57,7 @@ public class TitoloStudioServiceImpl implements TitoloStudioService {
 	}
 
 	@Override
-	public ResponseEntity<TitoloStudio> deleteTitolo(Integer id) {
+	public ResponseEntity<Titolo> deleteTitolo(Integer id) {
 		try {
 			tsr.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -60,16 +67,25 @@ public class TitoloStudioServiceImpl implements TitoloStudioService {
 		}
 	}
 
-	private TitoloStudio toEntity(TitoloStudioDTO titoloDTO) {
-		TitoloStudio t = new TitoloStudio();
-		t.setDiploma(titoloDTO.getDiploma());
+	private Titolo toEntity(TitoloStudioDTO titoloDTO) {
+		Titolo t = new Titolo();
+		Laurea laureaEnum = null;
+		Diploma diplomaEnum = null;
+		Certificazione certificazioneEnum = null;
+
+		if (titoloDTO.getLaurea() != null)
+			laureaEnum = Laurea.fromString(titoloDTO.getLaurea());
+		if (titoloDTO.getDiploma() != null)
+			diplomaEnum = Diploma.fromString(titoloDTO.getDiploma());
+		if (titoloDTO.getCertificazione() != null)
+			certificazioneEnum = Certificazione.fromString(titoloDTO.getCertificazione());
+		t.setDiploma(diplomaEnum);
 		t.setDataDiploma(titoloDTO.getDataDiploma());
-		t.setLaurea(titoloDTO.getLaurea());
+		t.setLaurea(laureaEnum);
 		t.setAnnoLaurea(titoloDTO.getAnnoLaurea());
-		t.setLaureaInCorso(titoloDTO.getLaureaInCorso());
-		t.setCertificazione(titoloDTO.getCertificazione());
+		t.setLaureaInCorso(laureaEnum);
+		t.setCertificazione(certificazioneEnum);
 		t.setDataScadenza(titoloDTO.getDataScadenza());
-		t.setCandidato(titoloDTO.getCandidato());
 		return t;
 	}
 

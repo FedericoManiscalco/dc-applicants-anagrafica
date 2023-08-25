@@ -2,6 +2,10 @@ package com.entity;
 
 import java.util.Date;
 
+import com.enums.Certificazione;
+import com.enums.Diploma;
+import com.enums.Laurea;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,31 +26,31 @@ import lombok.Setter;
 @Setter
 
 @Entity
-public class TitoloStudio {
+public class Titolo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer titoloId;
 
 	@Enumerated(EnumType.STRING)
-	private String laurea;
+	private Laurea laurea;
 
 	@Column(name = "anno_laurea")
 	private String annoLaurea;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "laurea_in_corso")
-	private String laureaInCorso;
+	private Laurea laureaInCorso;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String diploma;
+	private Diploma diploma;
 
 	@Column(name = "data_diploma", nullable = false)
 	private String dataDiploma;
 
 	@Enumerated(EnumType.STRING)
-	private String certificazione;
+	private Certificazione certificazione;
 
 	@Column(name = "data_scadenza")
 	private Date dataScadenza;

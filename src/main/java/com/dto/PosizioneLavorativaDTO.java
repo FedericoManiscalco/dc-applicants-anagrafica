@@ -18,15 +18,18 @@ import lombok.ToString;
 @ToString
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class TitoloStudioDTO {
+public class PosizioneLavorativaDTO {
 
-	private String laurea;
-	private String annoLaurea;
-	private String laureaInCorso;
-	private String diploma;
-	private String dataDiploma;
-	private String certificazione;
-	private Date dataScadenza;
+	private String azienda;
+	private Date dataInizio;
+	private String contratto;
+	private String specificaContratto;
+	private String qualifica;
+	private String livello;
+	private Integer ral;
+	private Integer tariffaGiornalieraNetta;
+	private String nomeReferente;
+	private Boolean normativaPrivacy;
 	private Integer candidatoId;
 
 }
